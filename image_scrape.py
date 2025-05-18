@@ -28,7 +28,7 @@ while len(image_urls) <= images_count:
 
     image_tags = driver.find_elements(By.XPATH,"//img[@class='hCL kVc L4E MIw']")
     image_url_duplicate = [img.get_attribute('src') for img in image_tags]
-    image_urls = list(set(image_urls)+(set(image_url_duplicate)))
+    image_urls = list(set(image_urls))+list(set(image_url_duplicate))
     print(len(image_urls))
 print(len(image_urls))
 #Downloading images
@@ -40,3 +40,5 @@ for index,img in enumerate(image_urls):
             f.write(chunk) 
 print(f'{len(image_urls)} Images Downloaded')
 driver.close()
+
+
