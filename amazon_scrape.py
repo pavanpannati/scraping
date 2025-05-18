@@ -12,6 +12,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import time
 import requests
+
+title_list = []
+price_list = []
+image_tag_list = []
+discount_tag_list = []
 def post_url_scraping():
     search = input('Search Post Name : ')     #search image names what you need
     post_count = int(input('Number of URLs stored : '))   #search images how many you need
@@ -52,15 +57,22 @@ def post_url_scraping():
     if post_urls:
         for url in post_urls:
             post_scraping(url)
+    #save data to excel
+    data = {
+        "Title":title_list,
+        "Price": price_list,
+        "Image URL":image_tag_list,
+        "Discount":discount_tag_list,
+    }
+    df = pd.DataFrame(data)
+    df.to_csv("amazon posts.csv",index = True)
+    df.to_excel("amazon posts.xlsx",index = True)
     
-    
+    print("files Saved")
             
 def post_scraping(url):
     
-    title_list = []
-    price_list = []
-    image_tag_list = []
-    discount_tag_list = []
+
     # Use headers to avoid getting blocked
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
@@ -121,20 +133,15 @@ def post_scraping(url):
         print("Image not found.")
     # Extract price
     # --- Print Results ---
-    price_list.append(price.get_text(strip=True).replace(",",""))
-    print("Price:",price.get_text(strip=True).replace(",","") or "Not found")
+    if price != None:
+        price_list.append(price.get_text(strip=True).replace(",",""))
+        print("Price:",price.get_text(strip=True).replace(",","") or "Not found")
     # print("Amazon Price:", price or "Not found")
-    discount_tag_list.append(discount_tag.get_text(strip=True).replace("-",""))
-    print("Discount %:", discount_tag.get_text(strip=True).replace("-",""))
+    if discount_tag != None:
+        discount_tag_list.append(discount_tag.get_text(strip=True).replace("-",""))
+        print("Discount %:", discount_tag.get_text(strip=True).replace("-",""))
 
-    #save data to excel
-    data = {
-        "Title":title_list,
-        "Price": price_list,
-        "Image URL":image_tag_list,
-        "Discount":discount_tag_list,
-    }
-    df = pd.DataFrame(data)
-    df.to_csv("amazon posts.csv",index = True)
+    
+    
 if __name__ == "__main__":
     post_url_scraping()

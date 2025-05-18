@@ -28,8 +28,9 @@ def bike_post_scrap():
 
         if "Page Not Found" in driver.title:
             print(" Page Unavailable ")
-            print("Page Refreshing .....")
-            driver.refresh()
+            search = input('Search Post Name : ')
+            URL = f'https://www.bikewale.com/{search}-bikes/'
+            driver.get(URL)
             time.sleep(3)
             continue
         else:
