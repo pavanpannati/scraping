@@ -35,7 +35,7 @@ print(len(image_urls))
 
 for index,img in enumerate(image_urls):
     response = requests.get(img,stream=True)
-    with open(f'img-{index+1}.jpg','wb') as f:
+    with open(f'{search}-{index+1}.jpg','wb') as f:
         for chunk in response.iter_content(chunk_size=128):
             f.write(chunk) 
 print(f'{len(image_urls)} Images Downloaded')

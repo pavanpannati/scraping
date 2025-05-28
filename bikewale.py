@@ -76,7 +76,7 @@ brand = ('Ampere',
 'Zontes')
 city = ('Mumbai',
 'Bangalore',
-'Delhi'
+'Delhi',
 'Pune',
 'Navi Mumbai',
 'Hyderabad',
